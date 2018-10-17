@@ -1,9 +1,3 @@
 [
-  {
-    "id": 1,
-    "name": "test",
-    "command": "root@test",
-    "host": "1test",
-    "password": "test"
-  }
+ 
 ]
