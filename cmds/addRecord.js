@@ -2,41 +2,9 @@
 const inquirer = require("inquirer");
 const Fs = require('fs');
 const chalk = require('chalk');
-// const STORAGE_PATH = require('os').homedir() + '/sshls.json';
-const STORAGE_PATH = 'sshls.json';
+const common = require('../common');
 
 module.exports = () => {
-    
-    const createFileIfMissing = () => {
-        try {
-            Fs.statSync(STORAGE_PATH);
-        } catch (e) {
-            Fs.writeFile(STORAGE_PATH, JSON.stringify([], null, 2), function () {
-            });
-        }
-    };
-
-    const fetchRecords = (callback) => {
-        if (!callback) {
-            console.log(chalk.red('Something wrong happened.'));
-            return;
-        }
-
-        Fs.readFile(STORAGE_PATH, "utf-8", function (err, content) {
-            if (err) {
-                console.log(chalk.red('No ssh records.'));
-                return;
-            }
-            try {
-                content = JSON.parse(content);
-            } catch (e) {
-                console.log(chalk.red('Failed to parse ssh records.'));
-            }
-
-            return callback(content);
-        });
-    };
-
     const askQuestions = () => {
         const questions = [
             {
@@ -65,12 +33,11 @@ module.exports = () => {
     };
 
     const run = async () => {
-        createFileIfMissing();
         let answers = await askQuestions();
 
         const updateRecords = (data) => {
             data.push({
-                id: data[data.length - 1].id + 1,
+                number: data.length ? data[data.length - 1].number + 1 : 1,
                 name: answers.name,
                 connect: answers.user + '@' + answers.host,
                 password: answers.password,
@@ -78,12 +45,12 @@ module.exports = () => {
                 host: answers.host,
             });
 
-            Fs.writeFile(STORAGE_PATH, JSON.stringify(data, null, 2), function () {
+            Fs.writeFile(common().getStoragePath(), JSON.stringify(data, null, 2), function () {
                 console.log(chalk.green('Record stored.'));
             });
         };
 
-        fetchRecords(updateRecords);
+        common().getRecords(updateRecords);
     };
 
     run();

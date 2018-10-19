@@ -1,28 +1,27 @@
 const minimist = require('minimist');
+const common = require('./common');
 
 module.exports = () => {
+    common().setupStorage();
     const args = minimist(process.argv.slice(2));
-    let command = args._[0] || 'help';
-
-    if (args.version || args.v) {
-        command = 'version'
-    }
-
-    if (args.help || args.h) {
-        command = 'help'
-    }
+    let command = args._[0] || null;
+    command = command === 'h' ? 'help' : command;
 
     switch (command) {
         case 'add':
-            require('./cmds/addSshAccount')();
+            require('./cmds/addRecord')();
             break;
-        //
-        // case 'help':
-        //     require('./cmds/help')(args);
-        //     break;
+
+        case 'rm':
+            require('./cmds/removeRecord')(args);
+            break;
+
+        case 'help':
+            require('./cmds/showHelp')();
+            break;
 
         default:
-            require('./cmds/listSshAccounts')();
+            require('./cmds/listRecords')();
             break;
     }
 };
