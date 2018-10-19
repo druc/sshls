@@ -3,7 +3,7 @@ Tired of spending time searching ssh connnection details through your projects a
 
 Search no more.  
   
-`sshls` is a small cli app acting like an addres book for your ssh acccounts.  
+`sshls` is a small cli app acting like an address book for your ssh acccounts.  
 
 Once installed, you can start adding records and list them in your terminal. No more searching.
 
