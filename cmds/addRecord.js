@@ -47,6 +47,7 @@ module.exports = () => {
 
             Fs.writeFile(common().getStoragePath(), JSON.stringify(data, null, 2), function () {
                 console.log(chalk.green('Record stored.'));
+                common().getRecords(common().displayRecords);
             });
         };
 
