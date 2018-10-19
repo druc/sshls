@@ -2,12 +2,11 @@
 const Fs = require('fs');
 const chalk = require('chalk');
 const t = require('table');
-// const STORAGE_PATH = require('os').homedir() + '/sshls.json';
 
 module.exports = () => {
     return {
         getStoragePath() {
-            return 'sshls.json';
+            return require('os').homedir() + '/.sshls.json';
         },
 
         setupStorage() {
